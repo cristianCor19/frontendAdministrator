@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.form-center{
+    margin: 0 auto;
+    color: red;   
+}
+
+.container-registerProduct{
+    
+}
+
+.margin-registerProduct{
+    position: relative;
+    top: 20px;
+    margin: auto;
+}
+
+/* styles sidebar */
+
+.navbar-main{
+    background-color: rgb(31 41 55 );
+    /* bg-gray-800 */
+    height: 60px;
+}
+
+.title-navbar{
+    position: relative;
+    color: white;
+    letter-spacing: 2px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    top: 10px;
+    left: 30%;
+}
+
+.bg-blue-200{
+    width: 400px;
+}
