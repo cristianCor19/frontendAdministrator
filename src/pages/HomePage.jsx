@@ -1,7 +1,7 @@
 import Header from '../components/Header'
 import Sidebar from '../components/Sidebar'
 
-// import {RiLineChartLine} from 'react-icons/ri'
+import {RiLineChartLine} from 'react-icons/ri'
 
 function HomePage(){
     return (
@@ -9,8 +9,8 @@ function HomePage(){
             <Sidebar/>
             <main className="lg:col-span-3 xl:col-span-5 bg-gray-100 p-8 h-[100vh] overflow-y-scroll">
                 <Header />
-                hola
-                {/* <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 mt-10 gap-8">
+                
+                <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 mt-10 gap-8">
                 
                 <div className="bg-primary-100 p-8 rounded-xl text-gray-300 flex flex-col gap-6">
                     <RiLineChartLine className="text-5xl" />
@@ -179,7 +179,7 @@ function HomePage(){
                     </div>
                     </div>
                 </div>
-                </section> */}
+                </section>
             </main>
     </div>
     )

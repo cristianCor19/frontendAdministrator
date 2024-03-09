@@ -3,7 +3,7 @@ import Sidebar from '../components/Sidebar';
 import {useForm} from 'react-hook-form' 
 import { useProduct } from '../context/ProductContext';
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import configFirebase from '../firebase/firebase';
 
@@ -88,16 +88,16 @@ function RegisterProduct(){
             console.log(values);
             await registerProduct(values);
 
-            navigate('/Home')
+            navigate('/listProducts')
     })
 
         return (
           
-            <div className="">
+            <div className="test">
                 <Sidebar/>
-                <div className='container-registerProduct'>
+                <div className='container-registerProduct relative'>
                   
-                    <div className='bg-blue-200 max-w-md p-10 rounded-md margin-registerProduct'>
+                    <div className=' bg-blue-200 max-w-md p-10 rounded-md margin-registerProduct '>
                         {/* {
                             registersErrors.map((error, i) => (
                                 <div className='bg-red-500 p-2 text-white' key={i}>
@@ -105,7 +105,7 @@ function RegisterProduct(){
                                 </div>
                             ))
                         } */}
-                        <h1 className='text-3xl font-bold my-2'>Registrate</h1>
+                        <h1 className='text-3xl font-bold my-2'>Registrar producto</h1>
                         <div className=''>
 
                           <form onSubmit={onSubmit}>
@@ -151,9 +151,13 @@ function RegisterProduct(){
                               {errors.type && (<p className='text-red-500'>El tipo es requerido</p>)}
 
                               <br />
-                              
                               <br />
-                              <button className='bg-sky-500 text-white px-4 py-2 rounded-md my-2' type="submit">Registrar producto</button>
+                              <div className='flex gap-10'>
+
+                                <button className='bg-sky-500 text-white px-4 py-2 rounded-md my-2' type="submit">Registrar producto</button>
+                                <button className=" bg-orange-500 text-white px-4 py-2 rounded-md my-2"><Link to={"/listUsers"}>Cancelar</Link>
+                                </button>
+                              </div>
                           </form>
                         </div>
                     </div> 

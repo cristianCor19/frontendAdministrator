@@ -2,39 +2,107 @@
 @tailwind components;
 @tailwind utilities;
 
-.form-center{
-    margin: 0 auto;
-    color: red;   
+.container-test-1 .margin-all-page {
+  margin-left: 2%;
+  margin-right: 2%;
 }
 
-.container-registerProduct{
-    
+.button-register-product {
+  margin-top: 20px;
+  display: flex;
+  margin-left: auto;
 }
 
-.margin-registerProduct{
-    position: relative;
-    top: 20px;
-    margin: auto;
+.form-center {
+  margin: 0 auto;
+  color: red;
+}
+
+.container-registerProduct {
+  z-index: 0;
+}
+
+
+
+.margin-registerProduct {
+  position: relative;
+  top: 20px;
+  margin: auto;
 }
 
 /* styles sidebar */
 
-.navbar-main{
-    background-color: rgb(31 41 55 );
-    /* bg-gray-800 */
-    height: 60px;
+.navbar-main {
+  position: sticky;
+  top: 0;
+  background-color: rgb(31 41 55);
+  /* bg-gray-800 */
+  height: 70px;
 }
 
-.title-navbar{
-    position: relative;
-    color: white;
-    letter-spacing: 2px;
-    font-size: 1.5rem;
-    font-weight: bold;
-    top: 10px;
-    left: 30%;
+.title-navbar {
+  position: relative;
+  color: white;
+  letter-spacing: 2px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  top: 10px;
+  left: 30%;
 }
 
-.bg-blue-200{
-    width: 400px;
+.test-title-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 30%;
+}
+
+.test-title-main-admin {
+  font-size: 1.6rem;
+  /* margin-left: 500px; */
+}
+
+.bg-blue-200 {
+  width: 400px;
+}
+
+@media (min-width: 640px) {
+  .test-title-main {
+    margin-left: 35%;
+  }
+}
+
+@media (min-width: 768px) {
+  .test-title-main {
+    margin-left: 40%;
+  }
+}
+
+@media (min-width: 1280px) {
+  .test-title-main {
+    margin-left: 37%;
+  }
+
+  .container-test-1 .margin-all-page{
+    margin-left: 10%;
+    margin-right: 10%;
+  }
+
+  .margin-all-page {
+    border: 1px solid rgb(225, 225, 225);
+  }
+
+  .navbar-main-margin {
+    margin-left: 7%;
+    margin-right: 7%;
+  }
+}
+
+
+@media (max-width: 600px) {
+
+
+  .margin-registerProduct{
+    width: 350px;
+  }
 }

@@ -17,19 +17,23 @@ function App(){
     <UserProvider>
       <ProductProvider>
         <BrowserRouter>
-          <Routes>
-            <Route path='/' element={<LoginPage/>} />
-            <Route element={<ProtectedRoute />} >
-            
-              
-              
-              <Route path='/Home' element={<HomePage/>} />
-              <Route path='/invenProduct' element={<RegisterProduct/>} />
-              <Route path='/listUsers' element={<UsersPage/>} />
-              <Route path='/listProducts' element={<ProductsPage/>} />
-              <Route path='/registerUsers' element={<RegisterUsers/>} />
-            </Route>
-          </Routes>
+        <div className=''>
+          <main className='container-test-1'>
+              <Routes>
+                <Route path='/' element={<LoginPage/>} />
+                <Route element={<ProtectedRoute />} >
+                
+                  
+                  
+                  <Route path='/Home' element={<HomePage/>} />
+                  <Route path='/invenProduct' element={<RegisterProduct/>} />
+                  <Route path='/listUsers' element={<UsersPage/>} />
+                  <Route path='/listProducts' element={<ProductsPage/>} />
+                  <Route path='/registerUsers' element={<RegisterUsers/>} />
+                </Route>
+              </Routes>
+          </main>
+        </div>
         </BrowserRouter>
       </ProductProvider>
     </UserProvider>

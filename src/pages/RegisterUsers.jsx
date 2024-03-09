@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useUser } from "../context/UserContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 
 function RegisterPage() {
@@ -15,25 +15,25 @@ function RegisterPage() {
   const onSubmit = handleSubmit(async (values) => {
     console.log(values);
     signup(values);
-    navigate("/Home");
+    navigate("/listProducts");
   });
 
   return (
     <div className="">
       <Sidebar />
-      <div className="container-registerProduct">
-        <div className="bg-blue-200 max-w-md p-10 rounded-md margin-registerProduct">
+      <div className="container-registerProduct    mt-10">
+        <div className="bg-blue-200 max-w-md p-10  z-10 rounded-md margin-registerProduct">
           {registersErrors.map((error, i) => (
             <div className="bg-red-500 p-2 text-white" key={i}>
               {error}
             </div>
           ))}
           <h1 className="text-3xl font-bold my-2">Registrar usuario</h1>
-          <form onSubmit={onSubmit}>
+          <form onSubmit={onSubmit} className="z-10 ">
             <input
               type="text"
               {...register("name", { required: true })}
-              className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2"
+              className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2 "
               placeholder="Nombre"
             />
             {errors.name && (
@@ -90,12 +90,17 @@ function RegisterPage() {
             </select>
             
 
-            <button
-              className="bg-sky-500 text-white px-4 py-2 rounded-md my-2"
-              type="submit"
-            >
-              Registrarse
-            </button>
+            <div className="flex gap-10">
+
+              <button
+                className="bg-sky-500 text-white px-4 py-2 rounded-md my-2 "
+                type="submit"
+              >
+                Registrar usuario
+              </button>
+              <button className=" bg-orange-500 text-white px-4 py-2 rounded-md my-2"><Link to={"/listUsers"}>Cancelar</Link>
+              </button>
+            </div>
           </form>
         </div>
       </div>
