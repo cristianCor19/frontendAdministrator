@@ -83,13 +83,15 @@ function RegisterProduct(){
         );
     }
 
-    const onSubmit = handleSubmit(async(values) =>{
-            values.image = inputs.imgUrl;
-            console.log(values);
-            await registerProduct(values);
+        const onSubmit = handleSubmit(async(values) =>{
+                values.image = inputs.imgUrl;
+                console.log(values);
+                await registerProduct(values);
 
-            navigate('/listProducts')
-    })
+                navigate('/listProducts')
+        })
+
+        
 
         return (
           

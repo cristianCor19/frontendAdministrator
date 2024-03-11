@@ -18,6 +18,14 @@ function RegisterPage() {
     navigate("/listProducts");
   });
 
+  function justLetters(event) {
+    const letra = event.key;
+    const esLetra = /[a-zA-ZñÑá-úÁ-Ú ]/.test(letra);
+    if (!esLetra) {
+      event.preventDefault(); // activa el metodo de forma que no deja escribir letras
+    }
+  }
+
   return (
     <div className="">
       <Sidebar />
@@ -31,7 +39,7 @@ function RegisterPage() {
           <h1 className="text-3xl font-bold my-2">Registrar usuario</h1>
           <form onSubmit={onSubmit} className="z-10 ">
             <input
-              type="text"
+              type="text" onKeyDown={justLetters}
               {...register("name", { required: true })}
               className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2 "
               placeholder="Nombre"
@@ -41,7 +49,7 @@ function RegisterPage() {
             )}
 
             <input
-              type="text"
+              type="text" onKeyDown={justLetters}
               {...register("lastname", { required: true })}
               className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2"
               placeholder="Apellido"
