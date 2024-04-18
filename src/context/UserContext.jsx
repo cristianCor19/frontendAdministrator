@@ -46,7 +46,7 @@ export const UserProvider = ({children}) => {
         try {
             const res = await registerUserRequest(user)
             if(res.data.status === true) {
-                console.log('prueba');
+                // console.log('prueba');
             }
         } catch (error) {
             if(Array.isArray(error.response.data)){
@@ -81,7 +81,6 @@ export const UserProvider = ({children}) => {
         try {
             const res = await getUsersRequest()
             setUsers(res.data.data)
-            console.log(res.data.data);
         } catch (error) {
             console.log(error);
         }
@@ -96,13 +95,10 @@ export const UserProvider = ({children}) => {
     //function to send search for the account 
     const searchRecovery = async(email) => {
         try{
-            console.log('entro a buscar cuenta');
+            
             const res = await searchRecoveryRequest(email)
-            console.log(res);
             setUser(res.data)
             setEmail(res.data.email)
-            console.log(res.data.email);
-            // setIsAuthenticated(true)
 
         } catch (error) {
             if(Array.isArray(error.response.data)){
@@ -116,9 +112,7 @@ export const UserProvider = ({children}) => {
     //function to send search for the account 
     const updatePasswordRecovery = async(data) => {
         try{
-            console.log('entro a buscar cuenta');
             const res = await updatePasswordRecoveryRequest(data)
-            console.log(res);
 
         } catch (error) {
             if(Array.isArray(error.response.data)){
@@ -155,7 +149,6 @@ export const UserProvider = ({children}) => {
             const token = localStorage.getItem('token');
             console.log(token);
             if(!token){
-                console.log('do not within');
                 setIsAuthenticated(false)
                 setLoading(false)
                 return 
@@ -164,7 +157,6 @@ export const UserProvider = ({children}) => {
             const res = await verifyUserRoleTokenRequest(token)
             console.log(res.data.role);
                 if (res.data.role != 'administrator') {
-                    console.log(' verification of roles');
                     setIsAuthenticated(false)
                     setLoading(false)
                     return;

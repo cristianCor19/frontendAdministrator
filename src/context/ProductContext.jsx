@@ -27,7 +27,6 @@ export const ProductProvider = ({children}) => {
         try {
             const res = await getProductsRequest()
             setProducts(res.data.data)
-            console.log(res);
             
         } catch (error) {
             console.log(error);
@@ -39,7 +38,6 @@ export const ProductProvider = ({children}) => {
         try {
             console.log('entro registro de producto');
             const res = await registerProductRequest(product)
-            console.log(res);
          
         } catch (error) {
             setErrors(error.response.data)
