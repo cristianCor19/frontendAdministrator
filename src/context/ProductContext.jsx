@@ -23,6 +23,7 @@ export const ProductProvider = ({children}) => {
 
 
     //funcion para obtener todos los productos
+    //function for get all products
     const getProducts = async () => {
         try {
             const res = await getProductsRequest()
@@ -34,6 +35,7 @@ export const ProductProvider = ({children}) => {
     }
 
     //funcion para el registro de productos
+    //function for the register of products
     const registerProduct = async (product) => {
         try {
             console.log('entro registro de producto');
