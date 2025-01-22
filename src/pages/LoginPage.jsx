@@ -1,37 +1,44 @@
-import '../styles/login.css'
 import {useForm} from 'react-hook-form'
-import {useUser} from '../context/UserContext'
+import {useSession} from '../context/SessionContext'
 import {Link, useNavigate} from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import '../styles/login.css'
 
 function LoginPage(){
 
-    const {register, handleSubmit, formState: {errors}} = useForm()
-    const {signin, errors: signinErrors, isAuthenticated,  role, logout} = useUser()
-    const [password, setPassword] = useState("");
+    const { register, handleSubmit,
+        formState: { errors }, setValue} = useForm({
+        defaultValues: {
+          email: '',
+          password: ''
+        }
+    });
+    const {signin, errors: signinErrors, isAuthenticated,  role, logout} = useSession()
     const navigate = useNavigate()
     
 
-    const onSubmit = handleSubmit(data => {
-        signin(data)
-        console.log(isAuthenticated);
-        if (!isAuthenticated) {
-        console.log('entro change password');
-        setPassword("");
+    const onSubmit = handleSubmit(async (data) => {
+        try {
+          await signin(data);
+          if (!isAuthenticated) {
+            setValue('password', '');
+          }
+        } catch (error) {
+          console.error('Login error:', error);
         }
-    })
+    });
 
     useEffect(() => {
         
         if (role === 'customer') {
             console.log('entro');
             logout()
-            window.location.reload();
+            navigate('/login')
         }else{
 
             if(isAuthenticated) navigate('/Home')
         }
-    }, [isAuthenticated])
+    }, [isAuthenticated, logout, navigate, role])
     
 
     return(
@@ -46,21 +53,36 @@ function LoginPage(){
                     <form onSubmit={onSubmit} className="form--box">
                         
                         <div className="container--input">
-                            <input type="email" className="input-field placeholder" placeholder="Digite su usuario"
-                            {...register("email", { required: true })}/>
-                            <i className='bx bxs-user-account'> | </i>
-                            {errors.email && <p className="text-red-500">Email is required</p>}
+                            <input 
+                                type="email"
+                                className="input-field placeholder" placeholder="Digite su usuario"
+                                {...register("email", { 
+                                    required: "El correo es requerido",
+                                    pattern: {
+                                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                      message: "correo inválido"
+                                    }
+                                })}
+                            />
+                            {errors.email && (
+                                <p className="text-red-500">{errors.email.message}</p>
+                            )}
                         </div>
                         <div className="container--input">
-                            <input type="password" name="user" id="user" required placeholder="Digite su contraseña"
-                            // {...register("password", { required: true })}/>
-                            {...register("password", { required: true })}
-                            value={password} // Agrega el valor del estado local
-                            onChange={(e) => setPassword(e.target.value)} // Actualiza el estado local
+                            <input 
+                                type="password" 
+                                name="user" id="user" required placeholder="Digite su contraseña"
+                            
+                                {...register("password", { 
+                                    required: "La contraseña es requerida",
+                                    minLength: {
+                                        value: 6,
+                                        message: "La contraseña debe tener al menos 8 caracteres"
+                                    }
+                                })}
                             />
-                            <i className='bx bxs-lock'> | </i>
                             {errors.password && (
-                            <p className="text-red-500">Password is required</p>
+                                <p className="text-red-500">{errors.password.message}</p>
                             )}
                         </div>
                         <div className="container--adiccionales">
