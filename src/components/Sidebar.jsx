@@ -1,19 +1,28 @@
 import { useState } from "react";
-import { useUser } from "../context/UserContext";
+import {useSession} from "../context/SessionContext";
 import { Link } from "react-router-dom";
 // Icons
 import {
   RiHome3Line,
-  RiFileCopyLine,
   RiWalletLine,
   RiPieChartLine,
 } from "react-icons/ri";
 
 const Sidebar = () => {
   const [showMenu, setShowMenu] = useState(false);
-  const {user, logout} = useUser()
+  const {profile, logout} = useSession()
 
   console.log(showMenu);
+
+   const getDisplayName = () => {
+    if (!profile) {
+      return 'loading....'
+    }
+    return profile.name && profile.lastname 
+      ? `${profile.name} ${profile.lastname}` 
+      : 'Usuario';
+   }
+
   return (
     <>
       <div className="navbar-main z-50">
@@ -48,7 +57,7 @@ const Sidebar = () => {
               src=""
               className="w-20 h-20 object-cover rounded-full ring-2 ring-gray-300"
             />
-            <h1 className="text-xl text-white font-bold">{`${user.name} ${user.lastname}`}</h1>
+            <h1 className="text-xl text-white font-bold">{getDisplayName()}</h1>
             <Link className="bg-primary-100 py-2 px-4 rounded-full text-white">
               Ver perfil
             </Link>
