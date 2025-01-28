@@ -1,4 +1,10 @@
 .best-product-img{
-    width: 40%;
+    width: 50%;
     height: auto;
+    /* margin: 0 auto; */
+}
+
+.container-home{
+    margin: 0 auto;
+   max-width: 1300px;
 }
