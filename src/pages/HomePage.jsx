@@ -1,202 +1,174 @@
-import Sidebar from '../components/Sidebar'
-// import {RiLineChartLine} from 'react-icons/ri'
-import { useStats } from '../context/StatsContext'
-import { useEffect } from 'react'
+import { useStats } from "../context/StatsContext";
+import { useEffect } from "react";
+import {
+  Tooltip,
+  ResponsiveContainer,
+  Cell,
+  PieChart,
+  Pie,
+ 
+} from "recharts"
 
-import '../styles/dashboard.css'
+import Sidebar from "../components/Sidebar";
+import "../styles/dashboard.css";
+import SalesChartSales from "../components/SalesChartSales";
 
-function HomePage(){
+function HomePage() {
+  const {
+    totalSold,
+    getTotalSold,
+    getBestProduct,
+    bestProduct,
+    getTotalSoldCategory,
+    totalSoldCategory, 
+    getTotalSoldMonth,
+    totalAmountPrevious,
+    totalCurrentYear,
+  } = useStats();
 
-    const {totalSold, bestProduct, getTotalSold, getBestProduct} = useStats()
+  const colors = ["#00E3CC", "#32A89C", "#009688", "#00635A","#AAECFC", "#88A3E2", "#B7A6F6", "#C37EDB"];
 
-    useEffect( () => {
-        const fetchData = async () => {
+  useEffect(() => {
+    const fetchData = async () => {
+      await getTotalSoldCategory();
+      await getBestProduct();
+      await getTotalSold();
+      await getTotalSoldMonth();
+    };
 
-            await getBestProduct();
-            await getTotalSold();
-        }
+    fetchData();
+  }, []);
 
-        fetchData();
-    }, [])
+  
 
-    console.log(bestProduct);
+  return (
+    <div className="">
+      <Sidebar />
+      <main className="lg:col-span-3 xl:col-span-5 bg-gray-100 p-8 container-home">
+        {/* <Header /> */}
+
+        <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-8">
+          <div className="bg-white p-8 rounded-xl text-gray-300 flex flex-col gap-6">
+            {/* <RiLineChartLine className="text-5xl" /> */}
+            <h4 className="text-3xl text-black font-bold text-center">
+              Ventas totales
+            </h4>
+
+            <div className="h-52 relative">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={totalSoldCategory}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={70}
+                    outerRadius={100}
+                    paddingAngle={2}
+                    dataKey="totalAmount"
+                  >
+                    {totalSoldCategory.map((entry, index) => (
+                      <Cell 
+                        key={`cell-${index}`}
+                        fill={colors[index % colors.length]}
+                      />
+                    ))}
+                  </Pie>
+                  <Tooltip 
+                    contentStyle={{
+                      background: '#fff',
+                      border: 'none',
+                      borderRadius: '8px',
+                      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                    }}
+                    formatter={(value) => [
+                      `$${value.toLocaleString()}`,
+                      `(${((value / totalSold) * 100).toFixed(1)}%)`
+                    ]}
+                  />
+                  
+                  <text
+                    x="50%"
+                    y="45%"
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    className="text-2xl font-bold"
+                    fill="#4A5568"
+                  >
+                    Total
+                    <tspan x="50%" dy="1.5em" className="text-lg">
+                      ${totalSold.toLocaleString()}
+                    </tspan>
+                  </text>
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+
+            <table className="text-center ml-6" >
+              <thead>
+                <tr>
+                    <th className="w-0"></th>
+                    <th className="w-10 text-center font-bold text-black">Categoria</th>
+                    <th className="w-56 text-center font-bold text-black">Valor</th>
+                </tr>
+              </thead>
+              <tbody>
+                {totalSoldCategory.map((item, index) => (
+                    <tr key={index} className="">
+                        <td className="border-b-2">
+                        <div className="w-4 h-4 rounded-sm ml-10" style={{backgroundColor: colors[index % colors.length]}}></div>
+                            
+                        </td>
+                        <td className="text-black border-b-2"> {item.category}</td>
+                        <td className="text-black p-1 border-b-2">{item.totalAmount}</td>
+                    </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="p-5 bg-white rounded-xl flex flex-col gap-4 drop-shadow-2xl bg-gradient-to-br
+          ">
+            <h1 className="text-center font-bold text-3xl">Producto más vendido</h1>
+            <div className="flex md:grid xl:flex items-center gap-12 rounded-xl bg-gradient-to-br from-zinc-50 to-zinc-100 p-6 h-96">
     
+              <img
+                src={bestProduct.image}
+                alt=""
+                className="best-product-img md:mx-auto xl:m-0 "
+              />
+              <div className="-mt-20 md:-mt-10 xl:-mt-20">
+                <h3 className="font-bold text-center text-3xl capitalize">{bestProduct.name}</h3>
+                <div className="md:ml-12">
 
-    return (
-        <div className="">
-            <Sidebar/>
-            <main className="lg:col-span-3 xl:col-span-5 bg-gray-100 p-8 h-[100vh] overflow-y-scroll">
-                {/* <Header /> */}
-
-                <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 mt-10 gap-8">
-
-                <div className="bg-white p-8 rounded-xl text-gray-300 flex flex-col gap-6">
-                    {/* <RiLineChartLine className="text-5xl" /> */}
-                    <h4 className="text-2xl text-black font-bold text-center">Ventas totales</h4>
-                    <span className="text-5xl text-black text-center">&#36; {totalSold}</span>
-                    
+                  <p className="text-black-500 mt-2 p-1">
+                    Cantidad: {bestProduct.quantity}
+                  </p>
+                  <p className="text-black-500 p-1">Precio: {bestProduct.price}</p>
+                  <p className="text-black-500 p-1">categoría: {bestProduct.type}</p>
+                  <p className="text-black-500 p-1">
+                    Total vendido: {bestProduct.totalSold}
+                  </p>
                 </div>
+              </div>
+            </div>
+          </div>
 
-                <div className="p-6 bg-white rounded-xl flex flex-col gap-4 drop-shadow-2xl">
-                    <h1 className='text-center font-bold'>Producto mas vendido</h1>
-                    <div className="flex items-center gap-4 bg-primary-100/10 rounded-xl p-5">
-                    {/* <span className="bg-primary-100 text-gray-300 text-2xl font-bold p-4 rounded-xl">
-                        98
-                    </span> */}
-                    <img src={bestProduct.image} alt="" className='best-product-img'/>
-                        <div>
-                            <h3 className="font-bold text-center">{bestProduct.name}</h3>
-                            <p className="text-gray-500">Cantidad: {bestProduct.quantity}</p>
-                            <p className="text-gray-500">Precio: {bestProduct.price}</p>
-                            <p className="text-gray-500">Categoría: {bestProduct.type}</p>
-                        </div>
-                    </div>
+        </section>
 
-                    {/* <h1 className='text-center font-bold'>Producto mas vendido</h1>
-                    <div className="bg-primary-100/10 rounded-xl p-4">
-                    <div className="flex items-center gap-4 ">
-                        <img src="/img/fondo1.jpg" alt="" className='best-product-img'/>
-                        <div>
-                        <h3 className="font-bold">Projects</h3>
-                        <p className="text-gray-500">8 this month</p>
-                        <p className="text-gray-500">8 this month</p>
-                        </div>
-                    </div>
-
-                    </div> */}
-                </div>
-
-                <div className="col-span-1 md:col-span-2 flex flex-col ">
-                    <h1 className="text-2xl font-bold mb-8">Your projects</h1>
-                    <div className="bg-white p-8 rounded-xl shadow-2xl">
-                    <div className="flex items-center gap-4 mb-8">
-                        <img
-                        src="https://img.freepik.com/foto-gratis/retrato-mujer-mayor-cerca_23-2149207185.jpg"
-                        className="w-14 h-14 object-cover rounded-full"
-                        />
-                        <div>
-                        <h3 className="font-bold">Logo design for Bakery</h3>
-                        <p className="text-gray-500">1 day remaining</p>
-                        </div>
-                    </div>
-                    <div className="flex items-center gap-4 mb-4">
-                        <img
-                        src="https://img.freepik.com/foto-gratis/retrato-mujer-mayor-cerca_23-2149207185.jpg"
-                        className="w-14 h-14 object-cover rounded-full"
-                        />
-                        <div>
-                        <h3 className="font-bold">Logo design for Bakery</h3>
-                        <p className="text-gray-500">1 day remaining</p>
-                        </div>
-                    </div>
-                    <div className="flex justify-end">
-                        <a
-                        href="#"
-                        className="hover:text-primary-100 transition-colors hover:underline"
-                        >
-                        See all projects
-                        </a>
-                    </div>
-                    </div>
-                </div>
-                </section>
-
-                <section className="grid grid-cols-1 md:grid-cols-2 mt-10 gap-8">
-                <div>
-                    <h1 className="text-2xl font-bold mb-8">Recent invoices</h1>
-                    <div className="bg-white p-8 rounded-xl shadow-2xl mb-8 flex flex-col gap-8">
-
-                    <div className="grid grid-cols-1 xl:grid-cols-4 items-center gap-4 mb-4">
-                        <div className="col-span-2 flex items-center gap-4">
-                        <img
-                            src="https://img.freepik.com/foto-gratis/hombre-joven-hermoso-contento-camiseta-azul-que-senala-lado_1262-17845.jpg"
-                            className="w-14 h-14 object-cover rounded-xl"
-                        />
-                        <div>
-                            <h3 className="font-bold">Alexander Williams</h3>
-                            <p className="text-gray-500">JQ Holdings</p>
-                        </div>
-                        </div>
-                        <div>
-                        <span className="bg-green-100 text-green-800 py-1 px-3 rounded-full font-medium">
-                            Paid
-                        </span>
-                        </div>
-                        <div>
-                        <span className="font-bold">&euro; 1,200.87</span>
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 xl:grid-cols-4 items-center gap-4 mb-4">
-                        <div className="col-span-2 flex items-center gap-4">
-                        <img
-                            src="https://img.freepik.com/foto-gratis/alegre-joven-deportista-posando-mostrando-pulgares-arriba-gesto_171337-8194.jpg"
-                            className="w-14 h-14 object-cover rounded-xl"
-                        />
-                        <div>
-                            <h3 className="font-bold">Jhon Philips</h3>
-                            <p className="text-gray-500">Inchor Techs</p>
-                        </div>
-                        </div>
-                        <div>
-                        <span className="bg-red-100 text-red-800 py-1 px-3 rounded-full font-medium">
-                            Late
-                        </span>
-                        </div>
-                        <div>
-                        <span className="font-bold">&euro; 12,998.88</span>
-                        </div>
-                    </div>
-                    </div>
-
-                </div>
-                <div>
-                    <h1 className="text-2xl font-bold mb-8">Recommended project</h1>
-                    <div className="bg-white p-8 rounded-xl shadow-2xl mb-8 flex flex-col gap-8">
-                    <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
-                        <div className="flex items-center gap-4">
-                        <img
-                            src="https://img.freepik.com/foto-gratis/retrato-mujer-mayor-cerca_23-2149207185.jpg"
-                            className="w-14 h-14 object-cover rounded-full"
-                        />
-                        <div>
-                            <h3 className="font-bold">Thomas Martin</h3>
-                            <p className="text-gray-500">Updated 10m ago</p>
-                        </div>
-                        </div>
-                        <div>
-                        <span className="bg-primary-100 py-2 px-4 rounded-full text-white">
-                            Design
-                        </span>
-                        </div>
-                    </div>
-                    <div>
-                        <h5 className="text-lg font-bold">
-                        Need a designer to form branding essentials for my business.
-                        </h5>
-                        <p className="text-gray-500">
-                        Looking for a talented brand designer to create all the
-                        branding materials my new startup.
-                        </p>
-                    </div>
-                    <div className="bg-primary-100/10 flex flex-col md:flex-row items-center justify-between gap-4 py-8 px-4 rounded-lg">
-                        <div>
-                        <sup className="text-sm text-gray-500">&euro;</sup>{" "}
-                        <span className="text-2xl font-bold mr-2">8,700</span>
-                        <span className="text-sm text-gray-500">/ month</span>
-                        </div>
-                        <div>
-                        <span className="border border-primary-100 text-primary-100 py-2 px-4 rounded-full">
-                            Full time
-                        </span>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-                </section>
-            </main>
+        <section className="grid grid-cols-1 mt-10 gap-8">
+          <div>
+            <div className="bg-white p-8 rounded-xl shadow-2xl mb-8 flex flex-col gap-8">
+              <h1 className="text-3xl font-bold text-center">Resumen de ventas</h1>
+              <SalesChartSales data={{
+                totalCurrentYear,
+                totalAmountPrevious
+              }}/>
+            </div>
+          </div>
+        </section>
+      </main>
     </div>
-    )
+  );
 }
 
-export default HomePage
+export default HomePage;
