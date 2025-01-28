@@ -2,15 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-.container-test-1 .margin-all-page {
-  margin-left: 2%;
-  margin-right: 2%;
-}
 
-.button-register-product {
-  margin-top: 20px;
-  display: flex;
-  margin-left: auto;
+.container-test-1 .margin-all-page {
+  max-width: 1300px;
+  margin: 0 auto
 }
 
 .form-center {
@@ -26,8 +21,9 @@
 
 .margin-registerProduct {
   position: relative;
-  top: 20px;
+  /* top: 20px; */
   margin: auto;
+  width: 400px;
 }
 
 /* styles sidebar */
@@ -40,6 +36,8 @@
   height: 70px;
 }
 
+
+
 .title-navbar {
   position: relative;
   color: white;
@@ -48,54 +46,6 @@
   font-weight: bold;
   top: 10px;
   left: 30%;
-}
-
-.test-title-main {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 30%;
-}
-
-.test-title-main-admin {
-  font-size: 1.6rem;
-  /* margin-left: 500px; */
-}
-
-.bg-blue-200 {
-  width: 400px;
-}
-
-@media (min-width: 640px) {
-  .test-title-main {
-    margin-left: 35%;
-  }
-}
-
-@media (min-width: 768px) {
-  .test-title-main {
-    margin-left: 40%;
-  }
-}
-
-@media (min-width: 1280px) {
-  .test-title-main {
-    margin-left: 37%;
-  }
-
-  .container-test-1 .margin-all-page{
-    margin-left: 10%;
-    margin-right: 10%;
-  }
-
-  .margin-all-page {
-    border: 1px solid rgb(225, 225, 225);
-  }
-
-  .navbar-main-margin {
-    margin-left: 7%;
-    margin-right: 7%;
-  }
 }
 
 
