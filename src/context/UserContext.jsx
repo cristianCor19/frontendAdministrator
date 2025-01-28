@@ -1,5 +1,5 @@
 import { createContext, useState, useContext, useEffect } from "react";
-
+import { enqueueSnackbar } from "notistack";
 
 import {
     registerUserRequest,
@@ -28,13 +28,14 @@ export const UserProvider = ({children}) => {
     const [errors, setErrors] = useState([])
     
 
-
-    //funcion para el registro de usuarios
     const signup = async (user) => {
         try {
             const res = await registerUserRequest(user)
-            if(res.data.status === true) {
-                // console.log('prueba');
+            if(res.status === 200) {
+                enqueueSnackbar('Usuario registrado con éxito ', {
+                    variant: 'success',
+                    autoHideDuration: 3000
+                })
             }
         } catch (error) {
             setErrors(Array.isArray(error.response.data)
