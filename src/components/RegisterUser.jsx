@@ -1,9 +1,9 @@
 import { useForm } from "react-hook-form";
 import { useUser } from "../context/UserContext";
 import { useNavigate, Link } from "react-router-dom";
-import Sidebar from "../components/Sidebar";
+import { useState, useEffect } from "react";
 
-function RegisterPage() {
+function RegisterUser({onSuccess, onClose}) {
   const {
     register,
     handleSubmit,
@@ -11,11 +11,11 @@ function RegisterPage() {
   } = useForm();
   const { signup, errors: registersErrors } = useUser();
   const navigate = useNavigate();
+  const [submitted, setSubmitted] = useState(false);
 
   const onSubmit = handleSubmit(async (values) => {
-    console.log(values);
-    signup(values);
-    navigate("/listProducts");
+    setSubmitted(true);
+    await signup(values);
   });
 
   function justLetters(event) {
@@ -26,22 +26,29 @@ function RegisterPage() {
     }
   }
 
+  useEffect(() => {
+    if (submitted && registersErrors.length === 0) {
+      onSuccess();
+      // navigate("/listUsers");
+      setSubmitted(false);
+    }
+  }, [registersErrors, submitted, onSuccess, navigate]);
+
   return (
     <div className="">
-      <Sidebar />
-      <div className="container-registerProduct    mt-10">
-        <div className="bg-blue-200 max-w-md p-10  z-10 rounded-md margin-registerProduct">
+      <div className="container-registerProduct ">
+        <div className="bg-blue-100 max-w-md p-12  z-10 rounded-md margin-registerProduct">
           {registersErrors.map((error, i) => (
             <div className="bg-red-500 p-2 text-white" key={i}>
               {error}
             </div>
           ))}
-          <h1 className="text-3xl font-bold my-2">Registrar usuario</h1>
+          <h1 className="text-3xl font-bold my-2 text-center -mt-6 text-blue-600">Registrar usuario</h1>
           <form onSubmit={onSubmit} className="z-10 ">
             <input
               type="text" onKeyDown={justLetters}
               {...register("name", { required: true })}
-              className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2 "
+              className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-3 "
               placeholder="Nombre"
             />
             {errors.name && (
@@ -51,7 +58,7 @@ function RegisterPage() {
             <input
               type="text" onKeyDown={justLetters}
               {...register("lastname", { required: true })}
-              className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2"
+              className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-3"
               placeholder="Apellido"
             />
             {errors.lastname && (
@@ -98,16 +105,18 @@ function RegisterPage() {
             </select>
             
 
-            <div className="flex gap-10">
+            <div className="flex gap-6 md:ml-6">
 
+              <button type="button" className=" bg-orange-400 text-white px-4 py-2 rounded-md my-2" onClick={onClose}>Cancelar
+              </button>
               <button
-                className="bg-sky-500 text-white px-4 py-2 rounded-md my-2 "
+                className="bg-sky-400 text-white px-4 py-2 rounded-md my-2 "
                 type="submit"
               >
                 Registrar usuario
               </button>
-              <button className=" bg-orange-500 text-white px-4 py-2 rounded-md my-2"><Link to={"/listUsers"}>Cancelar</Link>
-              </button>
+              
+             
             </div>
           </form>
         </div>
@@ -116,4 +125,4 @@ function RegisterPage() {
   );
 }
 
-export default RegisterPage;
+export default RegisterUser;

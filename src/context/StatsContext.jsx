@@ -2,7 +2,9 @@ import { createContext, useState, useContext } from "react";
 
 import { 
     totalSoldRequest,
-    bestProductRequest
+    bestProductRequest,
+    totalSoldCategoryRequest,
+    totalSoldMonthRequest
 } from "../api/stats";
 
 export const StatsContext = createContext()
@@ -19,12 +21,16 @@ export const useStats = () => {
 
 export const StatsProvider = ({children}) => {
     const [totalSold, setTotalSold] = useState([])
+    const [totalSoldCategory, setTotalSoldCategory] = useState ([])
+    const [totalCurrentYear, setTotalCurrentYear] = useState([])
+    const [totalAmountPrevious, setTotalAmountPrevious] = useState([])
     const [bestProduct, setBestProduct] = useState([])
     const [errors, setErrors] = useState([])
 
     const getTotalSold = async () => {
         try {
             const res = await totalSoldRequest()
+            
             setTotalSold(res.data.data)
         } catch (error) {
             setErrors(Array.isArray(error.response.data)
@@ -44,13 +50,46 @@ export const StatsProvider = ({children}) => {
         }
     }
 
+    const getTotalSoldCategory = async () => {
+        try {
+            const res = await totalSoldCategoryRequest()
+            
+            setTotalSoldCategory(res.data.data)
+        } catch (error) {
+            setErrors(Array.isArray(error.response.data)
+            ? error.response.data
+            : [error.response.data.message])
+        }
+    }
+
+    const getTotalSoldMonth = async () => {
+        try {
+            const res = await totalSoldMonthRequest();
+
+            setTotalCurrentYear(res.data.totalCurrentYear)
+            
+            setTotalAmountPrevious(res.data.totalAmountPrevious)
+
+        } catch (error) {
+            setErrors(Array.isArray(error.response.data)
+            ? error.response.data
+            : [error.response.data.message])
+        }
+    }
+
+
     return(
         <StatsContext.Provider value={{
             totalSold,
             bestProduct,
+            totalSoldCategory,
+            totalAmountPrevious,
+            totalCurrentYear,
             errors,
             getTotalSold,
-            getBestProduct
+            getBestProduct,
+            getTotalSoldCategory,
+            getTotalSoldMonth
         }}>
             {children}
         </StatsContext.Provider>

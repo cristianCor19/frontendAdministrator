@@ -9,10 +9,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
-import RegisterProduct from './pages/RegisterProduct';
 import UsersPage from './pages/UsersPage';
 import ProductsPage from './pages/ProductsPage';
-import RegisterUsers from './pages/RegisterUsers';
+// import RegisterUsers from './pages/RegisterUsers';
 // import Sidebar from './components/Sidebar';
 
 const queryClient = new QueryClient({
@@ -43,10 +42,8 @@ function App(){
                             
                             
                             <Route path='/Home' element={<HomePage/>} />
-                            <Route path='/invenProduct' element={<RegisterProduct/>} />
                             <Route path='/listUsers' element={<UsersPage/>} />
                             <Route path='/listProducts' element={<ProductsPage/>} />
-                            <Route path='/registerUsers' element={<RegisterUsers/>} />
                           </Route>
                         </Routes>
                     </main>
