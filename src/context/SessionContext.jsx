@@ -128,7 +128,6 @@ export const SessionProvider = ({children}) => {
         async function checklogin () {
             const token = localStorage.getItem('token');
 
-            console.log(token);
             if(!token){
                 setIsAuthenticated(false)
                 setLoading(false)

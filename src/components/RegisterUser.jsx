@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useUser } from "../context/UserContext";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 function RegisterUser({onSuccess, onClose}) {
@@ -14,6 +14,7 @@ function RegisterUser({onSuccess, onClose}) {
   const [submitted, setSubmitted] = useState(false);
 
   const onSubmit = handleSubmit(async (values) => {
+    
     setSubmitted(true);
     await signup(values);
   });
@@ -32,7 +33,7 @@ function RegisterUser({onSuccess, onClose}) {
       // navigate("/listUsers");
       setSubmitted(false);
     }
-  }, [registersErrors, submitted, onSuccess, navigate]);
+  }, [registersErrors, submitted, onSuccess]);
 
   return (
     <div className="">
